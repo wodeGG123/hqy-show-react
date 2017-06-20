@@ -1,0 +1,16 @@
+.ant-menu-horizontal > .ant-menu-item:hover, .ant-menu-horizontal > .ant-menu-submenu:hover, .ant-menu-horizontal > .ant-menu-item-active, .ant-menu-horizontal > .ant-menu-submenu-active, .ant-menu-horizontal > .ant-menu-item-open, .ant-menu-horizontal > .ant-menu-submenu-open, .ant-menu-horizontal > .ant-menu-item-selected, .ant-menu-horizontal > .ant-menu-submenu-selected{
+  border-bottom: 2px solid transparent;
+}
+
+.header-logo{
+  vertical-align: middle;
+  max-height: 56px;
+}
+.ant-menu-item, .ant-menu-submenu-title{
+  padding: 0 40px;
+}
+.header-right{
+  position: absolute;
+  top: 0;
+  right: 40px;
+}

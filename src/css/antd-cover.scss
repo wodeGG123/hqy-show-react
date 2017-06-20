@@ -1,0 +1,21 @@
+
+//变量
+//color
+$color1 : #fff;
+
+
+
+//覆盖
+.ant-layout-header {
+    background: $color1;
+    padding: 0 50px;
+    height: 66px;
+    line-height: 64px;
+    border-bottom: 1px solid #e9e9e9;
+}
+.ant-menu{
+    line-height: inherit;
+}
+.ant-menu-horizontal{
+  border-bottom: none;
+}
