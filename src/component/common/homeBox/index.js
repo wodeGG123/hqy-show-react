@@ -25,6 +25,9 @@ class HomeBox extends React.Component {
     });
   }
   render(){
+    const {name} = this.props
+
+
     return (
 
       <Layout>
@@ -61,6 +64,7 @@ class HomeBox extends React.Component {
         <div className='header-search'>
         <Search
           placeholder="请输入搜索内容..."
+          value={''&&name}
           style={{ width: 200 }}
           onSearch={value => console.log(value)}
         />

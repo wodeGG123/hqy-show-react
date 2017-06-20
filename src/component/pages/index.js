@@ -3,28 +3,28 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 //redux
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { createStore, combineReducers} from 'redux'
 
-let store = createStore(todoApp);
+import {isLogin} from '../../reducers/index.js'
 
+
+
+
+// router
+import AppRouter from '../common/router.js'
 
 //styles
 import 'antd/dist/antd.css';
 import '../../css/antd-cover.scss';
 
 
-// Reducer
-function todoApp(state = { count: 0 }, action) {
-  const count = state.count
-  switch (action.type) {
-    case 'increase':
-      return { count: count + 1 }
-    default:
-      return state
-  }
-}
-
-import AppRouter from '../common/router.js'
+// Reducer => combine
+const todoApp = combineReducers({
+    isLogin
+});
+//store
+let store = createStore(todoApp);
+//render
 ReactDOM.render(<Provider store={store}>
     <AppRouter />
   </Provider> ,
