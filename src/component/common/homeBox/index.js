@@ -8,6 +8,10 @@ const { Header, Content, Sider } = Layout;
 const MenuItemGroup = Menu.ItemGroup;
 const Search = Input.Search;
 
+// redux
+import { connect } from 'react-redux'
+
+//style
 require('./css/style.scss');
 
 class HomeBox extends React.Component {
@@ -25,9 +29,11 @@ class HomeBox extends React.Component {
     });
   }
   render(){
+
+
+
     const {name} = this.props
-
-
+    console.log(this.props)
     return (
 
       <Layout>
@@ -64,9 +70,9 @@ class HomeBox extends React.Component {
         <div className='header-search'>
         <Search
           placeholder="请输入搜索内容..."
-          value={''&&name}
+          value={'&npsp;'&&name}
           style={{ width: 200 }}
-          onSearch={value => console.log(value)}
+          onSearch={value => {this.props.searchClick()}}
         />
         </div>
       </div>
@@ -78,6 +84,18 @@ class HomeBox extends React.Component {
     )
   }
 }
+let mapStateToProps = (state,ownProps)=>{
+  return {
+    name:state
+  }
+}
+let mapDispatchToProps = (dispatch,ownProps)=>{
+  return {
+    searchClick:()=>{console.log(123);dispatch({type:'username',error:false})}
+  }
+}
 
-
-export default HomeBox
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(HomeBox)

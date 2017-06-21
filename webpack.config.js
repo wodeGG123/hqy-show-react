@@ -3,7 +3,7 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 module.exports = {
   // click on the name of the option to get to the detailed documentation
   // click on the items with arrows to show more examples / advanced options
-  entry: "./src/component/pages/index.js", // string | object | array
+  entry: "./src/index.js", // string | object | array
   output: {
     path: path.resolve(__dirname, "dist"), // string
     filename: "bundle.js", // string
