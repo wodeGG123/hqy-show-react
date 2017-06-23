@@ -15,12 +15,15 @@ import { connect } from 'react-redux'
 require('./css/style.scss');
 
 class HomeBox extends React.Component {
+  static defaultProps = {
+    aaa:'123123'
+  }
   constructor(props){
     super(props);
     this.state = {
         current: 'itme1',
+        searchVal:'',
       }
-
   }
   handleClick(e){
     console.log('click ', e);
@@ -28,11 +31,13 @@ class HomeBox extends React.Component {
       current: e.key,
     });
   }
+  handleChange(text){
+    this.setState({
+        searchVal:text,
+    })
+  }
   render(){
-
-
-
-    const {name} = this.props
+    const {name,itemList} = this.props
     console.log(this.props)
     return (
 
@@ -46,8 +51,13 @@ class HomeBox extends React.Component {
         <Menu.Item key="logo">
           <a href='#'><img className='header-logo' src={require("./img/header-logo.png")} /></a>
         </Menu.Item>
+        {itemList.map((obj,index)=>{
+          return (<Menu.Item key={'item'+ index}>
+            {obj.text}
+          </Menu.Item>)
+        })}
         <Menu.Item key="itme1">
-          演示标题
+          {name?name:'演示'}
         </Menu.Item>
         <Menu.Item key="itme2" disabled>
           演示标题
@@ -70,9 +80,11 @@ class HomeBox extends React.Component {
         <div className='header-search'>
         <Search
           placeholder="请输入搜索内容..."
-          value={'&npsp;'&&name}
+          value={this.state.searchVal}
+          onChange={(e)=>{this.handleChange(e.target.value)}}
           style={{ width: 200 }}
-          onSearch={value => {this.props.searchClick()}}
+          onSearch={value => {this.props.searchClick(value)}}
+          onPressEnter={e => {this.props.searchClick(e.target.value)}}
         />
         </div>
       </div>
@@ -86,12 +98,13 @@ class HomeBox extends React.Component {
 }
 let mapStateToProps = (state,ownProps)=>{
   return {
-    name:state
+    name:state.search,
+    itemList:　[{text:'首页'},{text:'学校简介'},{text:'综合实践教学平台'},{text:'在线学习'}]
   }
 }
 let mapDispatchToProps = (dispatch,ownProps)=>{
   return {
-    searchClick:()=>{console.log(123);dispatch({type:'username',error:false})}
+    searchClick:(value)=>{dispatch({type:'HEAD_SEARCH_CLICK',text:value})}
   }
 }
 

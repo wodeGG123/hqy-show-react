@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom'
 import { Router, Route, IndexRoute, Link, hashHistory } from 'react-router'
 
 //self-component
-import Home from '../pages/home/index.js'
+import Home from '../component/pages/home/index.js'
 
 class AppRouter extends React.Component{
   constructor(props){

@@ -9,20 +9,13 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore, combineReducers} from 'redux'
 
-import {isLogin} from './reducers/index.js'
+import reducers from './reducers/index.js'
 
 // router
-import AppRouter from './component/common/router.js'
+import AppRouter from './routers/index.js'
 
-// Reducer => combine
-const todoApp = combineReducers({
-    isLogin
-});
-const todo = combineReducers({
-    todoApp
-});
 //store
-let store = createStore(todo);
+let store = createStore(reducers);
 //render
 ReactDOM.render(<Provider store={store}>
     <AppRouter />
