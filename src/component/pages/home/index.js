@@ -14,7 +14,9 @@ class Home extends React.Component{
   render(){
     return (
       <div>
-        <HomeBox />
+        <HomeBox>
+          {this.props.children}
+        </HomeBox>
       </div>
     )
   }

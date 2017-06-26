@@ -4,8 +4,14 @@ import ReactDOM from 'react-dom'
 
 
 class AppRouter extends React.Component {
+  static defaultProps = {
+
+  }
   constructor(props){
     super(props);
+    this.state={
+      
+    }
   }
 
   render(){

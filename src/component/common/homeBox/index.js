@@ -16,13 +16,26 @@ require('./css/style.scss');
 
 class HomeBox extends React.Component {
   static defaultProps = {
-    aaa:'123123'
+    logo: require("./img/header-logo.png"),
+    itemList:　[
+      {text:'首页',href:'/'},
+      {text:'学校简介',href:'#'},
+      {text:'综合实践教学平台',href:'#',subMenu:[
+        {text:'综合',href:'#'},
+        {text:'实践',href:'#'},
+        {text:'管理',href:'#'},
+        {text:'教学',href:'#'},
+      ]},
+      {text:'在线学习',href:'#'}
+    ],
+    footer:{name:'大学名称',text:['大学地址地址','邮编：12312983','电话：123123 34324324']}
   }
   constructor(props){
     super(props);
     this.state = {
         current: 'itme1',
         searchVal:'',
+
       }
   }
   handleClick(e){
@@ -49,32 +62,19 @@ class HomeBox extends React.Component {
         mode="horizontal"
       >
         <Menu.Item key="logo">
-          <a href='#'><img className='header-logo' src={require("./img/header-logo.png")} /></a>
+          <a href='/'><img className='header-logo' src={this.props.logo} /></a>
         </Menu.Item>
         {itemList.map((obj,index)=>{
-          return (<Menu.Item key={'item'+ index}>
-            {obj.text}
-          </Menu.Item>)
+          if(obj.subMenu){
+          return (<SubMenu key={'item'+ index} title={<span>演示标题</span>}>{obj.subMenu.map((subObj,subIndex)=>{
+              return (<Menu.Item key={'sub-item'+subIndex}><a href={subObj.href}>{subObj.text}</a></Menu.Item>)
+            })}</SubMenu>)
+          }else{
+            return (<Menu.Item key={'item'+ index}>
+              <a href={obj.href}>{obj.text}</a>
+            </Menu.Item>)
+          }
         })}
-        <Menu.Item key="itme1">
-          {name?name:'演示'}
-        </Menu.Item>
-        <Menu.Item key="itme2" disabled>
-          演示标题
-        </Menu.Item>
-        <SubMenu title={<span>演示标题</span>}>
-          <MenuItemGroup title="Item 1">
-            <Menu.Item key="setting:1">Option 1</Menu.Item>
-            <Menu.Item key="setting:2">Option 2</Menu.Item>
-          </MenuItemGroup>
-          <MenuItemGroup title="Item 2">
-            <Menu.Item key="setting:3">Option 3</Menu.Item>
-            <Menu.Item key="setting:4">Option 4</Menu.Item>
-          </MenuItemGroup>
-        </SubMenu>
-        <Menu.Item key="itme3">
-          <a href="https://ant.design" target="_blank" rel="noopener noreferrer">演示标题</a>
-        </Menu.Item>
       </Menu>
       <div className='header-right'>
         <div className='header-search'>
@@ -90,8 +90,14 @@ class HomeBox extends React.Component {
       </div>
       </Header>
     <Layout>
-123123
+      {this.props.children}
     </Layout>
+    <footer>
+      <span>{this.props.footer.name}</span>
+      {this.props.footer.text.map((obj,index)=>{
+        return(<span key={index}>{obj}</span>)
+      })}
+    </footer>
   </Layout>
     )
   }
@@ -99,7 +105,6 @@ class HomeBox extends React.Component {
 let mapStateToProps = (state,ownProps)=>{
   return {
     name:state.search,
-    itemList:　[{text:'首页'},{text:'学校简介'},{text:'综合实践教学平台'},{text:'在线学习'}]
   }
 }
 let mapDispatchToProps = (dispatch,ownProps)=>{
