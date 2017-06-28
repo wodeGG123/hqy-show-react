@@ -9,6 +9,7 @@ import { Router, Route, IndexRoute, Link, hashHistory } from 'react-router'
 import Home from '../component/pages/home/index.js'
 import List from '../component/pages/list/index.js'
 import Intro from '../component/pages/intro/index.js'
+import Detail from '../component/pages/detail/index.js'
 
 
 
@@ -26,6 +27,7 @@ class AppRouter extends React.Component{
           <Route path="home" component={Home}>
             <Route path="list" component={List}></Route>
             <Route path="intro" component={Intro}></Route>
+            <Route path="detail" component={Detail}></Route>
           </Route>
 
         </Route>

@@ -130,7 +130,7 @@ class List extends React.Component{
             </div>
             <div style={{marginTop:'20px'}}>
             <h3>排序方式</h3>
-            <div style={{marginTop:'10px'}}>
+            <div className='sort-box' style={{marginTop:'10px'}}>
               <Button type='primary'>按发布时间</Button>
               <Button type='default'>按学习人数</Button>
               <Button type='default'>按喜欢人数</Button>
