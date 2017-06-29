@@ -22,6 +22,10 @@ class Intro extends React.Component{
   createMarkup() {
     return {__html: '<div class="am-panel-bd"><p class="color-style3" style="line-height: 30px;">为每个直播教室提供一路高质量流媒体直播通道，并将前端的手机App，课程录屏与直播软件、E-Studio切换台等信号源，通过高质量、低延迟的直播流数据，与后端的手机App，微信、网站、OTT等多种观看平台对接。实现面向专业教学的直播教室服务。</p><p style="padding-top: 60px;padding-bottom: 100px;"><img src="http://hqyj.chinamcloud.com/mlv/img/temp/zbxq-img1.jpg" alt=""></p></div>'};
   }
+
+  getData(){
+    
+  }
   render(){
     return (
       <div className='content-wrap'>

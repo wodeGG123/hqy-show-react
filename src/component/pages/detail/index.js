@@ -78,13 +78,51 @@ class Detail extends React.Component {
                 <div className='detail-bottom-left'>
                 <Tabs defaultActiveKey="1" size="small">
                   <TabPane tab="主页" key="1">Content of tab 1</TabPane>
-                  <TabPane tab="目录" key="2">Content of tab 2</TabPane>
+                  <TabPane tab="目录" key="2">
+                    <div>
+
+
+                    </div>
+
+                  </TabPane>
                   <TabPane tab="问答" key="3">Content of tab 3</TabPane>
                 </Tabs>
                 </div>
                 <div className='detail-bottom-right'>
                   <div className='detail-bottom-right-box'>
-                      <h3></h3>
+                      <h3>
+                        <Icon type="contacts" />
+                        <span>授课教师</span>
+                      </h3>
+                      <div className='detail-bottom-right-intro'>
+                        <div className='detail-bottom-right-intro-thum'><img src={require('./timg.png')} /></div>
+                        <div className='detail-bottom-right-intro-text'>
+                            <h5>某某某老师</h5>
+                            <p>广播电视编导系</p>
+                        </div>
+                      </div>
+                      <div className='detail-bottom-right-intro'>
+                        <div className='detail-bottom-right-intro-thum'><img src={require('./timg.png')} /></div>
+                        <div className='detail-bottom-right-intro-text'>
+                            <h5>某某某老师</h5>
+                            <p>广播电视编导系</p>
+                        </div>
+                      </div>
+                  </div>
+                  <div className='detail-bottom-right-box'>
+                      <h3>
+                        <Icon type="contacts" />
+                        <span>推荐课程</span>
+                      </h3>
+                      <div className='detail-bottom-right-intro2'>
+                        <h5>某某某老师</h5>
+                        <div className='detail-bottom-right-intro-thum'><img src={require('./timg.png')} /></div>
+                      </div>
+                      <div className='detail-bottom-right-intro2'>
+                        <h5>某某某老师</h5>
+                        <div className='detail-bottom-right-intro-thum'><img src={require('./timg.png')} /></div>
+                      </div>
+
                   </div>
                 </div>
             </div>

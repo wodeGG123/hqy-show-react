@@ -114,12 +114,79 @@
     .ant-tabs-mini .ant-tabs-tab{
       font-size: 14px;
     }
+    .ant-tabs-bar{
+      border-color: #eee;
+    }
   }
   .detail-bottom-right{
     width: 320px;
     .detail-bottom-right-box{
       padding: 30px;
       background-color: #fff;
+      margin-bottom: 20px;
+
+      h3{
+        font-size: 16px;
+        color: $Gray1;
+        font-weight: normal;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 8px;
+        i{
+          font-size: 20px;
+          height: 24px;
+          vertical-align: middle;
+          color: $MainColor;
+          margin-right: 4px;
+        }
+      }
+      .detail-bottom-right-intro{
+        display: flex;
+        justify-content: flex-start;
+        margin-top: 20px;
+        .detail-bottom-right-intro-thum{
+          width: 64px;
+          height: 64px;
+          overflow: hidden;
+          border-radius: 32px;
+          margin-right: 20px;
+          img{
+            display: block;
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .detail-bottom-right-intro-text{
+          h5{
+            color: $Gray2;
+            font-size: 14px;
+            padding-top: 6px;
+
+          }
+          p{
+            color: $Gray3;
+            font-size: 12px;
+            margin-top: 8px;
+          }
+        }
+      }
+      .detail-bottom-right-intro2{
+        h5{
+          font-size: 14px;
+          color: $Gray2;
+          padding: 8px 0;
+        }
+        .detail-bottom-right-intro-thum{
+          width: 260px;
+          height: 160px;
+
+          img{
+            display: block;
+            width: 100%;
+            height: 100%;
+          }
+        }
+
+      }
     }
   }
 }

@@ -9,12 +9,14 @@ const RadioGroup = Radio.Group;
 //self-component
 import BreadCrumb from '../../common/breadcrumb/index.js';
 import ListBlock,{ListBlock2} from '../../common/block/index.js';
-
+//request
+import Request from '../../../request/index.js';
 
 require('./styles.scss');
 
 class List extends React.Component{
   static defaultProps = {
+    filterShow:true,
     data:[{},{},{},{},{},{},{},{},{},{},{},{},{},{}],
     filter:[
       {
@@ -66,26 +68,26 @@ class List extends React.Component{
   constructor(props){
     super(props);
     this.state={
-        filterVal:[
-          {
-            value:0,
-          },
-          {
-            value:0,
-          }
-        ]
+      filterQuery:{},
+      data:this.props.data,
     }
   }
-  onChange = (e,index) => {
-    let _filterVal = _.cloneDeep(this.state.filterVal);
-    _filterVal[index].value = e.target.value;
-    this.setState({
-      filterVal: _filterVal,
-    });
-  }
 
+  getData(query){
+    Request.get(Request.api.list1).then((data)=>{
+      this.setState({
+        data:data
+      })
+      console.log(data)
+
+    });
+
+  }
+  componentWillMount(){
+    this.getData();
+  }
   render(){
-    console.log(this.props.location.query.element);
+
     const _element = this.props.location.query.element;
     function getElement(obj,index){
       switch (_element) {
@@ -97,7 +99,7 @@ class List extends React.Component{
       }
     }
 
-    const _remainder = 4-this.props.data.length%4;
+    const _remainder = 4-this.state.data.length%4;
     const _remainder_block = []
     for(let i = 0;i<_remainder;i++){
       _remainder_block.push('');
@@ -114,33 +116,11 @@ class List extends React.Component{
       <div className='content-wrap'>
         <div className='content-1200'><BreadCrumb /></div>
         <div className='content-1200'>
-          <div className='filter-box'>
-            <div>
-            <h3>全部分类</h3>
-            {
-              this.props.filter.map((obj,index)=>{
-                return (<div key={index} className='filter-item'>
-                  <h4>{obj.title}</h4>
-                  <div>
-                  <RadioGroup options={obj.items} onChange={(e)=>{this.onChange(e,index)}} value={this.state.filterVal[index].value} />
-                  </div>
-                </div>)
-              })
-            }
-            </div>
-            <div style={{marginTop:'20px'}}>
-            <h3>排序方式</h3>
-            <div className='sort-box' style={{marginTop:'10px'}}>
-              <Button type='primary'>按发布时间</Button>
-              <Button type='default'>按学习人数</Button>
-              <Button type='default'>按喜欢人数</Button>
-            </div>
-            </div>
-          </div>
+          {this.props.filterShow?<Filter filter={this.props.filter}  />:null}
 
           <div className='flex-block'>
             {
-              this.props.data.map((obj,index)=>{
+              this.state.data.map((obj,index)=>{
                 return (getElement(obj,index))
               })
             }
@@ -159,5 +139,71 @@ class List extends React.Component{
     )
   }
 }
+
+class Filter extends React.Component {
+  static defaultProps = {
+
+  }
+  constructor(props){
+    super(props);
+    const _filterVal = this.props.filter.map(()=>{return {value:0}});
+    this.state={
+          filterVal:_filterVal,
+          sort:[
+            {text:'按发布时间',select:false},
+            {text:'按学习人数',select:false},
+            {text:'按喜欢人数',select:false},
+          ]
+
+    }
+  }
+  onChange = (e,index) => {
+    let _filterVal = _.cloneDeep(this.state.filterVal);
+    _filterVal[index].value = e.target.value;
+    this.setState({
+      filterVal: _filterVal,
+    });
+  }
+  onSort(index){
+
+    let _sort = _.cloneDeep(this.state.sort);
+    _sort[index].select = !_sort[index].select;
+    this.setState({
+      sort : _sort
+    })
+
+  }
+  render(){
+    return (<div className='filter-box'>
+      <div>
+      <h3>全部分类</h3>
+      {
+        this.props.filter.map((obj,index)=>{
+          return (<div key={index} className='filter-item'>
+            <h4>{obj.title}</h4>
+            <div>
+            <RadioGroup options={obj.items} onChange={(e)=>{this.onChange(e,index)}} value={this.state.filterVal[index].value} />
+            </div>
+          </div>)
+        })
+      }
+      </div>
+      <div style={{marginTop:'20px'}}>
+      <h3>排序方式</h3>
+      <div className='sort-box' style={{marginTop:'10px'}}>
+        {this.state.sort.map((obj,index)=>{
+          return (<Button key={index} type={obj.select?'primary':'default'} onClick={()=>{this.onSort(index)}}>{obj.text}</Button>)
+        })}
+      </div>
+      </div>
+    </div>
+
+    )
+  }
+}
+
+
+
+
 
 export default List
