@@ -10,13 +10,13 @@ const RadioGroup = Radio.Group;
 import BreadCrumb from '../../common/breadcrumb/index.js';
 import ListBlock,{ListBlock2} from '../../common/block/index.js';
 //request
-import Request from '../../../request/index.js';
+import Request, {DOMAIN} from '../../../request/index.js';
+
 
 require('./styles.scss');
 
 class List extends React.Component{
   static defaultProps = {
-    filterShow:true,
     data:[{},{},{},{},{},{},{},{},{},{},{},{},{},{}],
     filter:[
       {
@@ -68,18 +68,33 @@ class List extends React.Component{
   constructor(props){
     super(props);
     this.state={
+      filterShow:this.props.location.query.filter,
       filterQuery:{},
       data:this.props.data,
+      page:{current:1,total:176,size:20},
+      element:'',
     }
   }
+  listInit(){
 
+  }
   getData(query){
-    Request.get(Request.api.list1).then((data)=>{
-      this.setState({
-        data:data
-      })
-      console.log(data)
 
+    const _element = this.props.location.query.element;
+    let _url = '';
+    switch (_element) {
+      case 'listblock':  _url = Request.api.list1;
+        break;
+      case 'listblock2':   _url = Request.api.list2;
+        break;
+      default:
+    }
+
+    Request.get(_url,query).then((data)=>{
+      console.log(data)
+      this.setState({
+        data:data.datas.data
+      })
     });
 
   }
@@ -91,7 +106,7 @@ class List extends React.Component{
     const _element = this.props.location.query.element;
     function getElement(obj,index){
       switch (_element) {
-        case 'listblock':  return <ListBlock key={index}/>
+        case 'listblock':  return <ListBlock img={DOMAIN+obj.thumb} title={obj.course_name} content={obj.brief} ps={obj.create_at} key={index}/>
           break;
         case 'listblock2':  return <ListBlock2 key={index}/>
           break;
@@ -116,7 +131,7 @@ class List extends React.Component{
       <div className='content-wrap'>
         <div className='content-1200'><BreadCrumb /></div>
         <div className='content-1200'>
-          {this.props.filterShow?<Filter filter={this.props.filter}  />:null}
+          {this.state.filterShow?<Filter filter={this.props.filter}  />:null}
 
           <div className='flex-block'>
             {
@@ -132,7 +147,7 @@ class List extends React.Component{
 
           </div>
           <div style={{display:'flex',justifyContent:'center',padding:'30px'}}>
-            <Pagination showQuickJumper defaultCurrent={2} total={500} onChange={this.onChange} />
+            <Pagination showQuickJumper defaultCurrent={this.state.page.current} pageSize={this.state.page.size} total={this.state.page.total} onChange={this.onChange} />
           </div>
         </div>
       </div>
@@ -201,9 +216,6 @@ class Filter extends React.Component {
     )
   }
 }
-
-
-
 
 
 export default List

@@ -1,9 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-
+//antd
 import {Icon} from 'antd'
 
-
+//dateFormat
+var dateFormat = require('dateformat');
 
 require('./styles.scss')
 
@@ -13,7 +14,8 @@ class ListBlock extends React.Component {
     img:require('./timg.png'),
     title:'模块标题',
     content:'模块内容',
-    ps:'模块附加信息',
+    ps:'',
+    id:'',
     bt:'查看详情',
   }
   constructor(props){
@@ -27,10 +29,10 @@ class ListBlock extends React.Component {
           <img src={this.props.img} />
         </div>
         <div className='ListBlock-right'>
-          <h3><a href='#'>{this.props.title}</a></h3>
+          <h3><a href='/#/home/detail'>{this.props.title}</a></h3>
           <p>{this.props.content}</p>
-          <div>{this.props.ps}</div>
-          <a href="#" className='ListBlock-bt'>{this.props.bt}</a>
+          <div>{dateFormat(parseInt(this.props.ps)*1000,"yyyy年mm月dd日 HH:MM:ss")}</div>
+          <a href="/#/home/detail" className='ListBlock-bt'>{this.props.bt}</a>
         </div>
       </div>
     )

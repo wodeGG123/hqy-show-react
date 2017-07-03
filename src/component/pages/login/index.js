@@ -1,12 +1,14 @@
+//react
 import React from 'react'
 import ReactDOM from 'react-dom'
 
 //antd
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button, Checkbox,message} from 'antd';
 const FormItem = Form.Item;
 
 //self-component
-import Request from  '../../../request/index.js';
+import Request,{Strorage} from  '../../../request/index.js';
+
 
 //router
 import { browserHistory } from 'react-router'
@@ -17,13 +19,16 @@ require('./styles.scss')
 
 
 class NormalLoginForm extends React.Component {
+
+  //ask context from react
   static contextTypes = {
     router: React.PropTypes.object
   }
-
+  static defaultProps = {
+        destination:null,
+  }
   constructor(props,context){
     super(props,context);
-        console.log(this.context);
     this.state={
 
     }
@@ -32,14 +37,28 @@ class NormalLoginForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
         Request.post(Request.api.login,{username:values.userName,password:values.password}).then((data)=>{
-          console.log(data)
-          console.log(this.props)
-          this.context.router.push('/home/intro')
+          if(data.statusCode == '200'){
 
+             //bug:直接/login会钉死在login页面
+             if(this.props.destination){
+               this.context.router.push(this.props.destination)
+             }else{
+                this.context.router.goBack()
+             }
+
+
+             if(values.remember){
+               Strorage.userToken = data.datas.token;
+             }else{
+               Strorage.removeItem('userToken');
+             }
+          }else{
+             message.error('用户名或密码错误！')
+          }
         })
       }
+
     });
   }
   render() {
@@ -96,9 +115,9 @@ class Login extends React.Component {
     this.state={
 
     }
-  }
-
+  }  
   render(){
+
     return (
       <div className='login-wrap'>
         <div className='login-content'>
@@ -112,7 +131,7 @@ class Login extends React.Component {
             <div className='login-right'>
               <h2>{this.props.title2}</h2>
               <div>
-                <WrappedNormalLoginForm context={this.context} />
+                <WrappedNormalLoginForm destination={this.props.location.query.destination} />
               </div>
             </div>
           </div>

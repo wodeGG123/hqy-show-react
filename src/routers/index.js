@@ -21,7 +21,12 @@ class AppRouter extends React.Component{
   constructor(props){
     super(props);
   }
-
+  //router 树
+  // + /home/list?element=listblock
+  // + /home/list?element=listblock2
+  // + /home/intro
+  // + /home/detai
+  // + /login
   render(){
     return (
       <Router history={hashHistory}>
