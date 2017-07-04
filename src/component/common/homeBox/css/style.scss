@@ -14,7 +14,13 @@
   position: absolute;
   top: 0;
   right: 50px;
+  display: flex;
+  justify-content: flex-start;
+  .userBlock{
+    padding-left: 10px;
+  }
 }
+
 .content-wrap{
   background-color: #f0f5fa;
   padding-bottom: 60px;

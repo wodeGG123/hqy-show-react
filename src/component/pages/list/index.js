@@ -17,7 +17,7 @@ require('./styles.scss');
 
 class List extends React.Component{
   static defaultProps = {
-    data:[{},{},{},{},{},{},{},{},{},{},{},{},{},{}],
+    data:[],
     filter:[
       {
         title:'按院系分类',
@@ -67,19 +67,7 @@ class List extends React.Component{
   }
   constructor(props){
     super(props);
-    this.state={
-      filterShow:this.props.location.query.filter,
-      filterQuery:{},
-      data:this.props.data,
-      page:{current:1,total:176,size:20},
-      element:'',
-    }
-  }
-  listInit(){
-
-  }
-  getData(query){
-
+    //设置url
     const _element = this.props.location.query.element;
     let _url = '';
     switch (_element) {
@@ -89,50 +77,59 @@ class List extends React.Component{
         break;
       default:
     }
+    //设置url
 
-    Request.get(_url,query).then((data)=>{
+    this.state={
+      filterShow:this.props.location.query.filter,
+      filterQuery:{},
+      data:this.props.data,
+      page:{current:1,total:1,size:20},
+      dataURL:_url,
+    }
+  }
+  getData(page){
+    let _page = _.cloneDeep(this.state.page);
+    Request.get(this.state.dataURL,page).then((data)=>{
       console.log(data)
+      _page.total = parseInt(data.datas.totalCount);
+      window.scrollTo(0,0);
       this.setState({
-        data:data.datas.data
+        data:data.datas.data,
+        page:_page,
       })
     });
-
   }
   componentWillMount(){
     this.getData();
   }
   render(){
-
+    //选择使用组件
     const _element = this.props.location.query.element;
     function getElement(obj,index){
       switch (_element) {
-        case 'listblock':  return <ListBlock img={DOMAIN+obj.thumb} title={obj.course_name} content={obj.brief} ps={obj.create_at} key={index}/>
+        case 'listblock':  return <ListBlock img={DOMAIN+obj.thumb} title={obj.course_name} content={obj.brief} ps={obj.create_at} id={obj.course_id} key={index}/>
           break;
         case 'listblock2':  return <ListBlock2 key={index}/>
           break;
         default:
       }
     }
-
+    //选择使用组件
+    //flex布局bug
     const _remainder = 4-this.state.data.length%4;
     const _remainder_block = []
     for(let i = 0;i<_remainder;i++){
       _remainder_block.push('');
     }
-
-
-
-    const children = [];
-    for (let i = 10; i < 36; i++) {
-      children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
-    }
-
+    //flex布局bug
     return (
       <div className='content-wrap'>
         <div className='content-1200'><BreadCrumb /></div>
         <div className='content-1200'>
           {this.state.filterShow?<Filter filter={this.props.filter}  />:null}
-
+          {
+            this.state.data.length == 0 ? <h2 className='empty-data'>暂无数据</h2> : null
+          }
           <div className='flex-block'>
             {
               this.state.data.map((obj,index)=>{
@@ -147,7 +144,7 @@ class List extends React.Component{
 
           </div>
           <div style={{display:'flex',justifyContent:'center',padding:'30px'}}>
-            <Pagination showQuickJumper defaultCurrent={this.state.page.current} pageSize={this.state.page.size} total={this.state.page.total} onChange={this.onChange} />
+            <Pagination showQuickJumper defaultCurrent={this.state.page.current} pageSize={this.state.page.size} total={this.state.page.total} onChange={(page,pageSize)=>{this.getData(page)}} />
           </div>
         </div>
       </div>
@@ -216,6 +213,5 @@ class Filter extends React.Component {
     )
   }
 }
-
 
 export default List

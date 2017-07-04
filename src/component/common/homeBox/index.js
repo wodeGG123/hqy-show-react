@@ -2,41 +2,79 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 //antd
-import { Layout, Menu, Breadcrumb, Icon, Input} from 'antd';
+import { Layout, Menu, Breadcrumb, Dropdown, Icon, Input} from 'antd';
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 const MenuItemGroup = Menu.ItemGroup;
 const Search = Input.Search;
+//lodash
+import _ from 'lodash'
 
 // redux
 import { connect } from 'react-redux'
+//request
+import Request, {DOMAIN,Strorage} from '../../../request/index.js';
 
 //style
 require('./css/style.scss');
 
 class HomeBox extends React.Component {
   static defaultProps = {
-    logo: require("./img/header-logo.png"),
-    itemList:　[
-      {text:'首页',href:'/'},
-      {text:'学校简介',href:'#'},
-      {text:'综合实践教学平台',href:'#',subMenu:[
-        {text:'综合',href:'#'},
-        {text:'实践',href:'#'},
-        {text:'管理',href:'#'},
-        {text:'教学',href:'#'},
-      ]},
-      {text:'在线学习',href:'#'}
-    ],
-    footer:{name:'大学名称',text:['大学地址地址','邮编：12312983','电话：123123 34324324']}
+
+    footer:{name:'大学名称',text:['大学地址地址','邮编：12312983','电话：123123 34324324']},
+
   }
   constructor(props){
     super(props);
     this.state = {
+        logo: require("./img/header-logo.png"),
         current: 'itme1',
         searchVal:'',
-
+        itemList:　[
+          {name:'首页',route:'/'},
+          {name:'学校简介',route:'#'},
+          {name:'综合实践教学平台',route:'#',children:[
+            {name:'综合',route:'#'},
+            {name:'实践',route:'#'},
+            {name:'管理',route:'#'},
+            {name:'教学',route:'#'},
+          ]},
+          {name:'在线学习',route:'#'}
+        ],
+        userLogin:false,
+        user:{name:'华栖云教',menu:[{title:'个人中心',url:'/#/'},{title:'我的课程',url:'/#/'}]},
       }
+  }
+  componentWillMount(){
+    this.getLogin()
+
+  }
+  getLogin(){
+
+    if(Strorage.userToken){
+      let _user = _.cloneDeep(this.state.user);
+      Request.get(Request.api.userInfo).then((data)=>{
+        console.log(data)
+        if(data.statusCode == '200'){
+          _user.name = (data.datas.realname || data.datas.username)
+          this.setState({
+            userLogin:true,
+            user:_user,
+          })
+        }
+
+      })
+    }
+
+    Request.get(Request.api.nav).then((data)=>{
+      console.log(data)
+      if(data.statusCode == '200'){
+        this.setState({
+          itemList:data.datas
+        })
+      }
+
+    })
   }
   handleClick(e){
     console.log('click ', e);
@@ -50,8 +88,41 @@ class HomeBox extends React.Component {
     })
   }
   render(){
-    const {name,itemList} = this.props
+    const {name,itemList} = this.state
     console.log(this.props)
+
+
+    const userMenu = (
+      <Menu>
+        {
+          this.state.user.menu.map((obj,index)=>{
+            return (<Menu.Item key={index}>
+              <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">{obj.title}</a>
+            </Menu.Item>)
+          })
+        }
+        <Menu.Divider />
+        <Menu.Item key="99">
+          <a  href="/#/">退出</a>
+        </Menu.Item>
+      </Menu>
+    );
+
+    function getMenu(obj){
+      return obj.map((obj,index)=>{
+        if(obj.children){
+        return (<SubMenu key={'item'+ index} title={<span>演示标题</span>}>{
+
+          getMenu(obj.children)
+
+        }</SubMenu>)
+        }else{
+          return (<Menu.Item key={'item'+ index}>
+            <a href={obj.route}>{obj.name}</a>
+          </Menu.Item>)
+        }
+      })
+    }
     return (
 
       <Layout>
@@ -62,19 +133,9 @@ class HomeBox extends React.Component {
         mode="horizontal"
       >
         <Menu.Item key="logo">
-          <a href='/'><img className='header-logo' src={this.props.logo} /></a>
+          <a href='/'><img className='header-logo' src={this.state.logo} /></a>
         </Menu.Item>
-        {itemList.map((obj,index)=>{
-          if(obj.subMenu){
-          return (<SubMenu key={'item'+ index} title={<span>演示标题</span>}>{obj.subMenu.map((subObj,subIndex)=>{
-              return (<Menu.Item key={'sub-item'+subIndex}><a href={subObj.href}>{subObj.text}</a></Menu.Item>)
-            })}</SubMenu>)
-          }else{
-            return (<Menu.Item key={'item'+ index}>
-              <a href={obj.href}>{obj.text}</a>
-            </Menu.Item>)
-          }
-        })}
+        {getMenu(itemList)}
       </Menu>
       <div className='header-right'>
         <div className='header-search'>
@@ -86,6 +147,17 @@ class HomeBox extends React.Component {
           onSearch={value => {this.props.searchClick(value)}}
           onPressEnter={e => {this.props.searchClick(e.target.value)}}
         />
+        </div>
+
+        <div className='userBlock'>
+        {
+          this.state.userLogin ? <Dropdown overlay={userMenu}>
+            <a className="ant-dropdown-link" href="#">
+              {this.state.user.name} <Icon type="down" />
+            </a>
+          </Dropdown> : <a href="/#/login" >登录</a>
+        }
+
         </div>
       </div>
       </Header>
