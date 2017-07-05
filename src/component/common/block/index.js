@@ -31,10 +31,10 @@ class ListBlock extends React.Component {
           <img src={this.props.img} onError={this.getDefaultIMG} />
         </div>
         <div className='ListBlock-right'>
-          <h3><a href={'/#/home/detail?id='+this.props.id}>{this.props.title}</a></h3>
+          <h3><a href={'/#/home/intro?id='+this.props.id}>{this.props.title}</a></h3>
           <p>{this.props.content}</p>
           <div>{dateFormat(parseInt(this.props.ps)*1000,"yyyy年mm月dd日 HH:MM:ss")}</div>
-          <a href={'/#/home/detail?id='+this.props.id} className='ListBlock-bt'>{this.props.bt}</a>
+          <a href={'/#/home/intro?id='+this.props.id} className='ListBlock-bt'>{this.props.bt}</a>
         </div>
       </div>
     )
@@ -46,9 +46,9 @@ class ListBlock2 extends React.Component {
   static defaultProps = {
     img:require('./timg.png'),
     title:'模块标题',
-    content:'模块内容',
-    ps:'模块附加信息',
-    bt:'查看详情',
+    courseNum:'',
+    learnNum:'',
+    id:'',
   }
   constructor(props){
     super(props);
@@ -61,15 +61,15 @@ class ListBlock2 extends React.Component {
       <div className='ListBlock2'>
         <div className='ListBlock2-img'><img src={this.props.img} onError={this.getDefaultIMG} /></div>
         <div className='ListBlock2-bottom'>
-          <h4><a href='#'>AE梨子路径学习</a></h4>
+          <h4><a href={'/#/home/detail?id='+this.props.id}>{this.props.title}</a></h4>
           <div className='ListBlock2-status'>
             <div className='icon-text-block'>
               <Icon type="clock-circle-o" />
-              <span>8课时</span>
+              <span>{this.props.courseNum}课时</span>
             </div>
             <div className='icon-text-block'>
               <Icon type="user" />
-              <span>117</span>
+              <span>{this.props.learnNum}</span>
             </div>
           </div>
         </div>

@@ -61,6 +61,9 @@ class NormalLoginForm extends React.Component {
 
     });
   }
+  componentWillMount(){
+      window.document.title = '用户登录';
+  }
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
@@ -115,7 +118,7 @@ class Login extends React.Component {
     this.state={
 
     }
-  }  
+  }
   render(){
 
     return (

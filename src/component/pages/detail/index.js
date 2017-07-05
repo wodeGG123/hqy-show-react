@@ -8,7 +8,11 @@ const TabPane = Tabs.TabPane;
 //self-component
 import BreadCrumb from '../../common/breadcrumb/index.js';
 
+//request
+import Request, {DOMAIN} from '../../../request/index.js';
 
+//tools
+import {formatDuring,createMarkup,errorIMGSetting} from '../../common/tools/index.js';
 
 require('./styles.scss')
 
@@ -21,49 +25,71 @@ class Detail extends React.Component {
   constructor(props){
     super(props);
     this.state={
-        
+        title:'未定义标题',
+        img:require('./timg.png'),
+        courseNum:'0',
+        time:'',
+        care:'0',
+        tags:[],
+        content:'',
+        typeList:[],
     }
   }
+  getData(){
+    Request.get(Request.api.detail,{
+      id:this.props.location.query.id
+    }).then((data)=>{
+      if(data.statusCode == '200'){
+        console.log(data)
+        console.log(this.props)
+        window.document.title = data.datas.course_name;
+        this.setState({
+          title:data.datas.course_name,
+          img:DOMAIN+data.datas.thumb,
+          courseNum:data.datas.learnnumber,
+          time:formatDuring(data.datas.auth_count_time),
+          care:data.datas.likenumber,
+          typeList:Object.values(data.datas.typeList),
+          tags:data.datas.object?data.datas.object.split(','):[],
+          content:data.datas.description,
+        })
+      }
+    });
+  }
   componentWillMount(){
+    this.getData();
     window.scrollTo(0,0);
   }
+
   render(){
     return (
       <div className='content-wrap'>
         <div className='content-1200'><BreadCrumb /></div>
         <div className='content-1200'>
             <div className='detail-top'>
-              <div className='detail-img'><img src={require('./timg.png')} /></div>
+              <div className='detail-img'><img src={this.state.img} onError={errorIMGSetting} /></div>
               <div className='detail-top-right'>
-                <h2>节目包装实践与应用</h2>
+                <h2>{this.state.title}</h2>
                 <div >
                     <div className='icon-text-block'>
                       <Icon type="solution" />
-                      <span>课时：37课</span>
+                      <span>课时：{this.state.courseNum}课时</span>
                     </div>
                     <div className='icon-text-block'>
                       <Icon type="clock-circle-o" />
-                      <span>时长：2小时18分</span>
+                      <span>时长：{this.state.time}</span>
                     </div>
                 </div>
                 <div className='detail-top-style1'>
                   <h5>学院：</h5>
                   <p>
-                    <span>广播电视编导</span>
-                    <span>广播电视编导</span>
-                    <span>广播电视编导</span>
-                    <span>广播电视编导</span>
-                    <span>广播电视编导</span>
-                    <span>广播电视编导</span>
-                    <span>广播电视编导</span>
-                    <span>广播电视编导</span>
-                    <span>广播电视编导</span>
+                    {this.state.typeList.map((obj,index)=>{return (<span key={index}>{obj}</span>)})}
                   </p>
                 </div>
                 <div className='detail-top-style2'>
                   <h5>标签：</h5>
                   <p>
-                    <span>广播电视编导</span>
+                    {this.state.tags.map((obj,index)=>{return (<span key={index}>{obj}</span>)})}
                   </p>
                 </div>
                 <div className='detail-top-bt'>
@@ -72,14 +98,16 @@ class Detail extends React.Component {
               </div>
               <div className='icon-text-block-handle'>
                 <Icon type="heart-o" />
-                <span>117</span>
+                <span>{this.state.care}</span>
               </div>
             </div>
 
             <div className='detail-bottom'>
                 <div className='detail-bottom-left'>
                 <Tabs defaultActiveKey="1" size="small">
-                  <TabPane tab="主页" key="1">Content of tab 1</TabPane>
+                  <TabPane tab="主页" key="1">
+                    <div dangerouslySetInnerHTML={createMarkup(this.state.content)} />
+                  </TabPane>
                   <TabPane tab="目录" key="2">
                     <div>
 

@@ -73,7 +73,7 @@ class List extends React.Component{
     switch (_element) {
       case 'listblock':  _url = Request.api.list1;
         break;
-      case 'listblock2':   _url = Request.api.list2;
+      case 'listblock2':  _url = Request.api.list2;
         break;
       default:
     }
@@ -89,7 +89,7 @@ class List extends React.Component{
   }
   getData(page){
     let _page = _.cloneDeep(this.state.page);
-    Request.get(this.state.dataURL,page).then((data)=>{
+    Request.get(this.state.dataURL,{page:page}).then((data)=>{
       console.log(data)
       _page.total = parseInt(data.datas.totalCount);
       window.scrollTo(0,0);
@@ -100,6 +100,7 @@ class List extends React.Component{
     });
   }
   componentWillMount(){
+    window.document.title = '课程列表';
     this.getData();
   }
   render(){
@@ -107,9 +108,9 @@ class List extends React.Component{
     const _element = this.props.location.query.element;
     function getElement(obj,index){
       switch (_element) {
-        case 'listblock':  return <ListBlock img={DOMAIN+obj.thumb} title={obj.course_name} content={obj.brief} ps={obj.create_at} id={obj.course_id} key={index}/>
+        case 'listblock':  return <ListBlock img={DOMAIN+obj.thumb} title={obj.title} content={obj.content} ps={obj.created_at} id={obj.id} key={index}/>
           break;
-        case 'listblock2':  return <ListBlock2 key={index}/>
+        case 'listblock2':  return <ListBlock2 img={DOMAIN+obj.thumb}  title={obj.course_name} courseNum={obj.count_knows_num} learnNum={obj.learnnumber} id={obj.course_id} key={index}/>
           break;
         default:
       }

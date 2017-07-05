@@ -4,27 +4,51 @@ import ReactDOM from 'react-dom'
 
 //self-component
 import BreadCrumb from '../../common/breadcrumb/index.js';
+//request
+import Request, {DOMAIN} from '../../../request/index.js';
 
 //ant-d
 import { Menu, Icon } from 'antd';
 const SubMenu = Menu.SubMenu;
+//dateFormat
+var dateFormat = require('dateformat');
 
 require('./styles.scss');
 class Intro extends React.Component{
 
   static defaultProps = {
-    single:false,
+    single:true,
   }
 
   constructor(props){
     super(props);
+    this.state={
+      title : '默认标题',
+      time : '2017-03-30 10:21:23',
+      content : '<div class="am-panel-bd"><p class="color-style3" style="line-height: 30px;">为每个直播教室提供一路高质量流媒体直播通道，并将前端的手机App，课程录屏与直播软件、E-Studio切换台等信号源，通过高质量、低延迟的直播流数据，与后端的手机App，微信、网站、OTT等多种观看平台对接。实现面向专业教学的直播教室服务。</p><p style="padding-top: 60px;padding-bottom: 100px;"><img src="http://hqyj.chinamcloud.com/mlv/img/temp/zbxq-img1.jpg" alt=""></p></div>',
+    }
   }
   createMarkup() {
-    return {__html: '<div class="am-panel-bd"><p class="color-style3" style="line-height: 30px;">为每个直播教室提供一路高质量流媒体直播通道，并将前端的手机App，课程录屏与直播软件、E-Studio切换台等信号源，通过高质量、低延迟的直播流数据，与后端的手机App，微信、网站、OTT等多种观看平台对接。实现面向专业教学的直播教室服务。</p><p style="padding-top: 60px;padding-bottom: 100px;"><img src="http://hqyj.chinamcloud.com/mlv/img/temp/zbxq-img1.jpg" alt=""></p></div>'};
+    return {__html: this.state.content};
   }
 
   getData(){
-    
+    Request.get(Request.api.intro,{
+      id:this.props.location.query.id
+    }).then((data)=>{
+      if(data.statusCode == '200'){
+        console.log(data)
+        window.document.title = data.datas.title;
+        this.setState({
+          title : data.datas.title,
+          time : dateFormat(data.datas.created_at,'yyyy-mm-dd HH:MM:ss'),
+          content : data.datas.description,
+        })
+      }
+    });
+  }
+  componentWillMount(){
+    this.getData()
   }
   render(){
     return (
@@ -33,8 +57,8 @@ class Intro extends React.Component{
         <div className='content-1200 back-white'>
         {this.props.single?<div className='intro-wrap-single'>
         <div className='intro-contet'>
-            <h2>学校简介</h2>
-            <h5>日期：2017-03-30 10:21:23</h5>
+            <h2>{this.state.title}</h2>
+            <h5>日期：{this.state.time}</h5>
             <div className='intro-contet-1'>
                 <div dangerouslySetInnerHTML={this.createMarkup()} />
             </div>
@@ -42,8 +66,8 @@ class Intro extends React.Component{
         </div>:<div className='intro-wrap'>
             <div className='intro-left'><Sider /></div>
             <div className='intro-contet'>
-                <h2>学校简介</h2>
-                <h5>日期：2017-03-30 10:21:23</h5>
+                <h2>{this.state.title}</h2>
+                <h5>日期：{this.state.time}</h5>
                 <div className='intro-contet-1'>
                     <div dangerouslySetInnerHTML={this.createMarkup()} />
                 </div>

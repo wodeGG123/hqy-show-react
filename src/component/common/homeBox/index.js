@@ -30,17 +30,7 @@ class HomeBox extends React.Component {
         logo: require("./img/header-logo.png"),
         current: 'itme1',
         searchVal:'',
-        itemList:　[
-          {name:'首页',route:'/'},
-          {name:'学校简介',route:'#'},
-          {name:'综合实践教学平台',route:'#',children:[
-            {name:'综合',route:'#'},
-            {name:'实践',route:'#'},
-            {name:'管理',route:'#'},
-            {name:'教学',route:'#'},
-          ]},
-          {name:'在线学习',route:'#'}
-        ],
+        itemList:　[],
         userLogin:false,
         user:{name:'华栖云教',menu:[{title:'个人中心',url:'/#/'},{title:'我的课程',url:'/#/'}]},
       }
@@ -54,7 +44,6 @@ class HomeBox extends React.Component {
     if(Strorage.userToken){
       let _user = _.cloneDeep(this.state.user);
       Request.get(Request.api.userInfo).then((data)=>{
-        console.log(data)
         if(data.statusCode == '200'){
           _user.name = (data.datas.realname || data.datas.username)
           this.setState({
@@ -67,13 +56,21 @@ class HomeBox extends React.Component {
     }
 
     Request.get(Request.api.nav).then((data)=>{
-      console.log(data)
       if(data.statusCode == '200'){
         this.setState({
           itemList:data.datas
         })
       }
+    })
 
+    Request.get(Request.api.site).then((data)=>{
+      if(data.statusCode == '200'){
+        if(data.datas.logo){
+          this.setState({
+            logo : DOMAIN+data.datas.logo
+          })
+        }
+      }
     })
   }
   handleClick(e){
@@ -87,11 +84,14 @@ class HomeBox extends React.Component {
         searchVal:text,
     })
   }
+  handleEXIT(){
+    Strorage.removeItem('userLogin')
+    this.setState({
+      userLogin:false,
+    })
+  }
   render(){
     const {name,itemList} = this.state
-    console.log(this.props)
-
-
     const userMenu = (
       <Menu>
         {
@@ -103,7 +103,7 @@ class HomeBox extends React.Component {
         }
         <Menu.Divider />
         <Menu.Item key="99">
-          <a  href="/#/">退出</a>
+          <a  href="javascripg:void(0)" onClick={()=>{this.handleEXIT()}}>退出</a>
         </Menu.Item>
       </Menu>
     );
@@ -111,14 +111,12 @@ class HomeBox extends React.Component {
     function getMenu(obj){
       return obj.map((obj,index)=>{
         if(obj.children){
-        return (<SubMenu key={'item'+ index} title={<span>演示标题</span>}>{
-
-          getMenu(obj.children)
-
+        return (<SubMenu key={'item'+ Math.random()} title={<span>{obj.name}</span>}>{
+            getMenu(obj.children)
         }</SubMenu>)
         }else{
-          return (<Menu.Item key={'item'+ index}>
-            <a href={obj.route}>{obj.name}</a>
+          return (<Menu.Item key={'item'+ Math.random()}>
+            <a href={'/#'+obj.route}>{obj.name}</a>
           </Menu.Item>)
         }
       })
@@ -133,7 +131,7 @@ class HomeBox extends React.Component {
         mode="horizontal"
       >
         <Menu.Item key="logo">
-          <a href='/'><img className='header-logo' src={this.state.logo} /></a>
+          <a href='/'><img className='header-logo' onError={(e)=>{e.target.src = require('./img/header-logo.png')}} src={this.state.logo} /></a>
         </Menu.Item>
         {getMenu(itemList)}
       </Menu>
