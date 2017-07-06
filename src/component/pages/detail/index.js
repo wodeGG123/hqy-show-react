@@ -33,15 +33,29 @@ class Detail extends React.Component {
         tags:[],
         content:'',
         typeList:[],
+        concern:false,
+        id:'0'
     }
+  }
+  handleCare(){
+    const _concern = this.state.concern ? false : true;
+    Request.get(Request.api.courseCare,{
+      type : '0',
+      id:this.state.id,
+    }).then((data)=>{
+      if(data.statusCode == '200'){
+        this.setState({
+          concern: _concern,
+        })
+      }
+    });
   }
   getData(){
     Request.get(Request.api.detail,{
       id:this.props.location.query.id
     }).then((data)=>{
+      console.log(data);
       if(data.statusCode == '200'){
-        console.log(data)
-        console.log(this.props)
         window.document.title = data.datas.course_name;
         this.setState({
           title:data.datas.course_name,
@@ -52,11 +66,17 @@ class Detail extends React.Component {
           typeList:Object.values(data.datas.typeList),
           tags:data.datas.object?data.datas.object.split(','):[],
           content:data.datas.description,
+          concern:data.datas.concern,
+          id:data.datas.course_id,
         })
       }
     });
   }
   componentWillMount(){
+    const { store } = this.context;
+    console.log(this)
+    console.log(store)
+
     this.getData();
     window.scrollTo(0,0);
   }
@@ -96,8 +116,8 @@ class Detail extends React.Component {
                   <Button type='primary'>进入学习</Button>
                 </div>
               </div>
-              <div className='icon-text-block-handle'>
-                <Icon type="heart-o" />
+              <div className='icon-text-block-handle'  style={this.state.concern?{'color':'red'}:{'color':'inherit'}}  onClick={()=>{this.handleCare()}}>
+                <Icon type={this.state.concern?'heart':'heart-o'}/>
                 <span>{this.state.care}</span>
               </div>
             </div>
