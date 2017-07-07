@@ -22,20 +22,41 @@ class Detail extends React.Component {
   static defaultProps = {
 
   }
-  constructor(props){
-    super(props);
-    this.state={
-        title:'未定义标题',
-        img:require('./timg.png'),
-        courseNum:'0',
-        time:'',
-        care:'0',
-        tags:[],
-        content:'',
-        typeList:[],
-        concern:false,
-        id:'0'
+  static contextTypes = {
+    store: React.PropTypes.object
+  }
+  constructor(props,context){
+    super(props,context);
+    console.log(this.context.store.getState())
+    const preData = this.context.store.getState().preLoadData;
+    if(preData){
+      this.state={
+          title:preData.title,
+          img:preData.img,
+          courseNum:preData.courseNum,
+          time:preData.time,
+          care:preData.care,
+          tags:preData.tags,
+          content:preData.content,
+          typeList:preData.typeList,
+          concern:preData.concern,
+          id:preData.id
+      }
+    }else{
+      this.state={
+          title:'',
+          img:'',
+          courseNum:'',
+          time:'',
+          care:'',
+          tags:[],
+          content:'',
+          typeList:[],
+          concern:'',
+          id:this.props.location.query.id
+      }
     }
+
   }
   handleCare(){
     const _concern = this.state.concern ? false : true;
@@ -74,8 +95,7 @@ class Detail extends React.Component {
   }
   componentWillMount(){
     const { store } = this.context;
-    console.log(this)
-    console.log(store)
+    console.log(this.context)
 
     this.getData();
     window.scrollTo(0,0);

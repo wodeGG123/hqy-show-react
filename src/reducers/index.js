@@ -11,8 +11,20 @@ const search = (state, action = {type:'',text:''}) => {
   }
   return false
 }
+
+//数据预加载
+const preLoadData = (state, action = {type:'',data:{}}) => {
+  const {type, data} = action;
+  if(type == 'PRE_LOAD_DATA'){
+
+    console.log('PRE_LOAD_DATA');
+    return data
+  }
+  return false
+}
 // Reducer => combine
 const reducers = combineReducers({
-    search
+    search,
+    preLoadData,
 });
 export default reducers;
