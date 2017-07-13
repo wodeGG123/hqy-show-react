@@ -100,3 +100,58 @@
     }
   }
 }
+.ListBlock3{
+  width: 1200px;
+  height: 260px;
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff;
+  margin-bottom: 40px;
+  box-shadow: 3px 3px 4px #ddd;
+  .ListBlock3-img{
+    width: 400px;
+    height: 100%;
+    img{
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  }
+  .ListBlock3-right{
+    width: 800px;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 40px 50px 40px 70px;
+    position: relative;
+    h3{
+      font-size: 18px;
+      font-weight: normal;
+      color: $Gray1;
+    }
+    p{
+      font-size: 14px;
+      color: $Gray3;
+      width: 680px;
+      height: 61px;
+      margin-top: 21px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      overflow: hidden;
+
+    }
+    &>div{
+      position: absolute;
+      left: 70px;
+      bottom: 40px;
+      button{
+        box-sizing: initial;
+        padding: 3px 30px;
+        font-size: 16px;
+        font-weight: normal;
+
+      }
+    }
+  }
+}

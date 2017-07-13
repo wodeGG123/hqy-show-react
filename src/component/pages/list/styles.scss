@@ -32,3 +32,55 @@
   width: 100%;
   font-weight: normal;
 }
+
+.list2-top{
+  height: 550px;
+  background: no-repeat top center;
+
+  .content-1200{
+    position: relative;
+    &>div{
+      width: 510px;
+      height: 550px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      position: absolute;
+      right: 0;
+      h1{
+        font-size: 28px;
+        font-weight: normal;
+        color: $Gray1;
+        width: 100%;
+      }
+      p{
+        font-size: 14px;
+        color: $Gray2;
+        width: 100%;
+      }
+      &>div{
+        width: 100%;
+        margin-top: 60px;
+        button{
+          padding: 4px 30px;
+          box-sizing: initial;
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}
+.add-more{
+  padding: 20px 0;
+  text-align: center;
+  a{
+    color: $Gray3;
+    font-size: 16px;
+    text-decoration: none;
+    &:hover{
+      color: $MainColor;
+    }
+
+  }
+}

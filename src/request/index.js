@@ -18,16 +18,27 @@ Request.api = {
     courseCare:'api.php?r=v1/study/concern',//课程关注操作
 }
 Request.post = function(url,data){
+  let _headers = {};
+  if(Strorage.userToken){
+    _headers = new Headers({
+      "auth-token": Strorage.userToken
+    })
+  }
   return fetch(DOMAIN+url, {
       method: 'POST',
       mode: "cors",
-      headers: new Headers({
-        "auth-token": Strorage.userToken
-      }),
+      headers: _headers,
       body: JSON.stringify(data)
     }).then((res)=>{return res.json()}).catch((error)=>{console.log(error)})
 }
 Request.get = function(url,data){
+  let _headers = {};
+  if(Strorage.userToken){
+    _headers = new Headers({
+      "auth-token": Strorage.userToken
+    })
+  }
+
   let _url = DOMAIN+url
   //json 转 url 参数
   if(data){
@@ -38,9 +49,7 @@ Request.get = function(url,data){
   return fetch(_url,{
       method: 'get',
       mode: "cors",
-      headers: new Headers({
-        "auth-token": Strorage.userToken
-      })
+      headers: _headers
   })
   .then((res)=>{return res.json()}).catch((error)=>{console.log(error)})
 }

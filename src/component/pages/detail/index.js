@@ -23,7 +23,8 @@ class Detail extends React.Component {
 
   }
   static contextTypes = {
-    store: React.PropTypes.object
+    store: React.PropTypes.object,
+    router: React.PropTypes.object
   }
   constructor(props,context){
     super(props,context);
@@ -94,13 +95,15 @@ class Detail extends React.Component {
     });
   }
   componentWillMount(){
-    const { store } = this.context;
-    console.log(this.context)
-
-    this.getData();
+    const preData = this.context.store.getState().preLoadData;
+    if(!preData){
+        this.getData()
+    }
     window.scrollTo(0,0);
   }
-
+  handleClick(){
+    this.context.router.push('/home/play');
+  }
   render(){
     return (
       <div className='content-wrap'>
@@ -133,7 +136,7 @@ class Detail extends React.Component {
                   </p>
                 </div>
                 <div className='detail-top-bt'>
-                  <Button type='primary'>进入学习</Button>
+                  <Button type='primary' onClick={()=>{this.handleClick()}}>进入学习</Button>
                 </div>
               </div>
               <div className='icon-text-block-handle'  style={this.state.concern?{'color':'red'}:{'color':'inherit'}}  onClick={()=>{this.handleCare()}}>
@@ -149,9 +152,19 @@ class Detail extends React.Component {
                     <div dangerouslySetInnerHTML={createMarkup(this.state.content)} />
                   </TabPane>
                   <TabPane tab="目录" key="2">
-                    <div>
-
-
+                    <div className='detail-catalog'>
+                        <div className='detail-title1'>
+                            <a href='javascript:void(0);' onClick={()=>{}}>一级目录</a>
+                            <div className='detail-title2'>
+                                <a href='javascript:void(0);' onClick={()=>{}}>二级目录</a>
+                                <div className='detail-title3'><a href='javascript:void(0);' onClick={()=>{}}>三级目录</a></div>
+                                <div className='detail-title3'><a href='javascript:void(0);' onClick={()=>{}}>三级目录</a></div>
+                            </div>
+                            <div className='detail-title2'><a href='javascript:void(0);' onClick={()=>{}}>二级目录</a></div>
+                            <div className='detail-title2'><a href='javascript:void(0);' onClick={()=>{}}>二级目录</a></div>
+                        </div>
+                        <div className='detail-title1'><a href='javascript:void(0);' onClick={()=>{}}>一级目录</a></div>
+                        <div className='detail-title1'><a href='javascript:void(0);' onClick={()=>{}}>一级目录</a></div>
                     </div>
 
                   </TabPane>

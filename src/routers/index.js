@@ -11,9 +11,11 @@ import { Router, Route, IndexRoute, Link, hashHistory } from 'react-router'
 //self-component
 import Home from '../component/pages/home/index.js'
 import List from '../component/pages/list/index.js'
+import List2 from '../component/pages/list/list2.js'
 import Intro from '../component/pages/intro/index.js'
 import Detail from '../component/pages/detail/index.js'
 import Login from '../component/pages/login/index.js'
+import Play from '../component/pages/play/index.js'
 
 
 
@@ -34,8 +36,10 @@ class AppRouter extends React.Component{
           <IndexRoute component={Home} />
           <Route path="home" component={Home}>
             <Route path="list" component={List}></Route>
+            <Route path="list2" component={List2}></Route>
             <Route path="intro" component={Intro}></Route>
             <Route path="detail" component={Detail}></Route>
+            <Route path="play" component={Play}></Route>
           </Route>
           <Route path="login" component={Login}></Route>
         </Route>

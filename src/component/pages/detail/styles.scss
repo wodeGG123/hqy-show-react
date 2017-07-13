@@ -118,6 +118,24 @@
     .ant-tabs-bar{
       border-color: #eee;
     }
+    .detail-catalog{
+
+      .detail-title1{
+        &>a{
+
+        }
+      }
+      .detail-title2{
+        &>a{
+
+        }
+      }
+      .detail-title3{
+        &>a{
+
+        }
+      }
+    }
   }
   .detail-bottom-right{
     width: 320px;
