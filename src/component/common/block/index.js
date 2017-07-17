@@ -28,7 +28,6 @@ class ListBlock extends React.Component {
   static contextTypes = {
     router: React.PropTypes.object,
     store: React.PropTypes.object,
-
   }
   constructor(props,context){
     super(props,context);

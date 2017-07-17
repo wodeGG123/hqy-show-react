@@ -99,6 +99,7 @@ class Detail extends React.Component {
     if(!preData){
         this.getData()
     }
+    window.document.title = preData.title;
     window.scrollTo(0,0);
   }
   handleClick(){
@@ -107,7 +108,19 @@ class Detail extends React.Component {
   render(){
     return (
       <div className='content-wrap'>
-        <div className='content-1200'><BreadCrumb /></div>
+        <div className='content-1200'><BreadCrumb data={[{
+            nameID:0,
+            url:'/'
+          },
+          {
+            nameID:1,
+            url:'/home/list?element=listblock2'
+          },
+          {
+            name:this.state.title
+          }
+          ]} />
+        </div>
         <div className='content-1200'>
             <div className='detail-top'>
               <div className='detail-img'><img src={this.state.img} onError={errorIMGSetting} /></div>
