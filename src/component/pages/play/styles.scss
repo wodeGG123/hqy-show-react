@@ -29,3 +29,144 @@
     -webkit-transition: all .4s;
     transition: all .4s;
 }
+.player-wrap{
+  display: flex;
+  justify-content: space-between;
+  height: 534.38px;
+  padding-bottom: 40px;
+  box-sizing: content-box;
+}
+.player-box{
+  width: 950px;
+  height: 100%;
+}
+.player-tools{
+  width: 250px;
+  height: 100%;
+  background-color: #181818;
+  .ant-tabs-bar{
+    border-bottom: 1px solid #333;
+  }
+  .ant-tabs-nav .ant-tabs-tab{
+    color: #eee;
+  }
+  .ant-tabs-nav .ant-tabs-tab-active{
+
+  }
+  .ant-tabs-nav .ant-tabs-tab:hover {
+
+  }
+  .ant-tabs-tab-prev, .ant-tabs-tab-next{
+    color: rgba(255, 255, 255, 043);
+  }
+  .ant-tabs-tab-btn-disabled, .ant-tabs-tab-btn-disabled:hover {
+    color: rgba(255, 255, 255, 0.25);
+  }
+  .chat-content{
+    height: 432.38px;
+    width: 100%;
+    .iScrollVerticalScrollbar{
+      width: 4px!important;
+      .iScrollIndicator{
+        background: rgb(51, 51, 51)!important;
+        border: 1px solid rgb(51, 51, 51)!important;
+      }
+    }
+
+    .chat-system-message{
+      height: 30px;
+      padding:0 8px;
+      p{
+        text-align: center;
+        font-size: 12px;
+        color: #666;
+        height: 30px;
+        line-height: 30px;
+      }
+    }
+    .chat-user-message-enemy{
+      padding:4px 8px;
+      display: flex;
+      justify-content: flex-start;
+      img{
+        width: 24px;
+        height: 24px;
+        display: block;
+        border-radius: 12px;
+        border: none;
+      }
+      div{
+        width: 200px;
+        margin-left: 10px;
+        h5{
+          color: $MainColor;
+          height: 18px;
+          span{
+            float: right;
+            color: #444;
+          }
+          b{
+            float: left;
+          }
+        }
+        p{
+          color: #999;
+        }
+      }
+    }
+    .chat-user-message-myself{
+      padding:4px 8px;
+      display: flex;
+      justify-content: flex-end;
+      img{
+        width: 24px;
+        height: 24px;
+        display: block;
+        border-radius: 12px;
+        border: none;
+      }
+      div{
+        width: 200px;
+        margin-right: 10px;
+        h5{
+          color: $MainColor;
+          height: 18px;
+          span{
+            float: left;
+            color: #444;
+          }
+          b{
+            float: right;
+          }
+        }
+        p{
+          color: #999;
+        }
+      }
+    }
+  }
+  .chat-tools{
+    height: 49px;
+    width: 100%;
+    border-top: 1px solid #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .ant-input-group .ant-input{
+      width: 180px;
+      background-color: #272727;
+      border: 1px solid #2d2d2d;
+      color: rgba(255,255,255,0.8);
+      &:focus{
+        box-shadow: none;
+      }
+    }
+    .ant-input-group-addon{
+      border: 1px solid #108ee9;
+      background-color: #108ee9;
+      a{
+        color: #fff;
+      }
+    }
+  }
+}

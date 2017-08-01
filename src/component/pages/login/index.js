@@ -47,12 +47,14 @@ class NormalLoginForm extends React.Component {
                 this.context.router.goBack()
              }
 
-
+             //是否保持登录状态
              if(values.remember){
                Strorage.userToken = data.datas.token;
              }else{
                Strorage.removeItem('userToken');
              }
+
+
           }else{
              message.error('用户名或密码错误！')
           }

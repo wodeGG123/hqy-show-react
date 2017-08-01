@@ -57,7 +57,6 @@ class App extends React.Component {
     return (
 
         <div>
-
           {this.props.children}
           <div style={{display:'none'}} className='spin-wrap'>
             <Spin spinning={true} size="large"  tip="加载中..." delay={500} ></Spin>

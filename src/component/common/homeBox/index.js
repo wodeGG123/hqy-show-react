@@ -14,6 +14,8 @@ import _ from 'lodash'
 import { connect } from 'react-redux'
 //request
 import Request, {DOMAIN,Strorage} from '../../../request/index.js';
+//react-router
+import {Link} from 'react-router';
 
 //style
 require('./css/style.scss');
@@ -23,6 +25,9 @@ class HomeBox extends React.Component {
 
     footer:{name:'大学名称',text:['大学地址地址','邮编：12312983','电话：123123 34324324']},
 
+  }
+  static contextTypes = {
+    store: React.PropTypes.object
   }
   constructor(props){
     super(props);
@@ -46,6 +51,12 @@ class HomeBox extends React.Component {
       Request.get(Request.api.userInfo).then((data)=>{
         if(data.statusCode == '200'){
           _user.name = (data.datas.realname || data.datas.username)
+
+          this.context.store.dispatch({
+            type: 'USER_INFO',
+            data: data.datas,
+          });
+          console.log(this.context.store.getState())
           this.setState({
             userLogin:true,
             user:_user,
@@ -74,10 +85,10 @@ class HomeBox extends React.Component {
     })
   }
   handleClick(e){
-    console.log('click ', e);
-    this.setState({
-      current: e.key,
-    });
+    // console.log('click ', e);
+    // this.setState({
+    //   current: e.key,
+    // });
   }
   handleChange(text){
     this.setState({
@@ -85,7 +96,7 @@ class HomeBox extends React.Component {
     })
   }
   handleEXIT(){
-    Strorage.removeItem('userLogin')
+    Strorage.removeItem('userToken');
     this.setState({
       userLogin:false,
     })
@@ -131,7 +142,7 @@ class HomeBox extends React.Component {
         mode="horizontal"
       >
         <Menu.Item key="logo">
-          <a href='/'><img className='header-logo' onError={(e)=>{e.target.src = require('./img/header-logo.png')}} src={this.state.logo} /></a>
+          <Link to='/'><img className='header-logo' onError={(e)=>{e.target.src = require('./img/header-logo.png')}} src={this.state.logo} /></Link>
         </Menu.Item>
         {getMenu(itemList)}
       </Menu>

@@ -14,8 +14,10 @@ Request.api = {
     nav:'api.php?r=v1/app/nav', //站点导航信息
     site:'api.php?r=v1/app/site',//网站信息
     detail:'api.php?r=v1/study/view',//课程详情
+    learn:'api.php?r=v1/study/learn',//课程学习
     intro:'api.php?r=v1/content/view',//课程详情
     courseCare:'api.php?r=v1/study/concern',//课程关注操作
+    chatToken:'api.php?r=v1/rongcloud/token',//获取融云token
 }
 Request.post = function(url,data){
   let _headers = {};

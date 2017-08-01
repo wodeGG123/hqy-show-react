@@ -79,6 +79,18 @@ class Detail extends React.Component {
       console.log(data);
       if(data.statusCode == '200'){
         window.document.title = data.datas.course_name;
+        //预加载播放数据
+        Request.get(Request.api.learn,{id:this.props.location.query.id}).then((data)=>{
+          console.log(data);
+          console.log(this.context.store.getState());
+          this.context.store.dispatch({
+            type: 'PRE_LOAD_DATA',
+            data: data.datas,
+          });
+          console.log(this.context.store.getState());
+        })
+
+
         this.setState({
           title:data.datas.course_name,
           img:DOMAIN+data.datas.thumb,
@@ -103,7 +115,7 @@ class Detail extends React.Component {
     window.scrollTo(0,0);
   }
   handleClick(){
-    this.context.router.push('/home/play');
+    this.context.router.push('/home/play?room=room'+this.state.id+'&id='+this.state.id);
   }
   render(){
     return (
